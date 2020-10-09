@@ -16,7 +16,7 @@ Future buildShowDialog(BuildContext context) {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Close me!'),
+                child: Text('update me!'),
                 onPressed: () {
                   _updateData();
                   Navigator.of(context).pop();
@@ -27,7 +27,6 @@ Future buildShowDialog(BuildContext context) {
 }
 
 void _updateData() async {
-  users
-      .doc("acctNumber")
-      .update({"acctDeposit": double.parse(_amtController.text)});
+  await users.doc().update({"acctDeposit": 4000});
+  print(users.doc().snapshots());
 }
