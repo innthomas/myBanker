@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:myBanker/screens/add_account.dart';
 import 'package:myBanker/screens/my_drawer.dart';
+import 'buildShowDialog.dart';
+import 'build_listview.dart';
 
-import '../searcher.dart';
+import '../screens/searcher.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -25,13 +28,18 @@ class _HomeState extends State<Home> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SearchPage()),
+                MaterialPageRoute(builder: (context) => AddAccount()),
               );
             },
           ),
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchPage()),
+              );
+            },
           )
         ],
         toolbarHeight: 100.0,
@@ -39,7 +47,9 @@ class _HomeState extends State<Home> {
         title: Center(
             child: Text(
           "ThriftApp",
-          style: TextStyle(fontFamily: "FugazOne"),
+          style: TextStyle(
+            fontFamily: "FugazOne",
+          ),
         )),
       ),
       body: Column(
@@ -49,9 +59,11 @@ class _HomeState extends State<Home> {
               stream: (searchString == null || searchString.trim() == "")
                   ? FirebaseFirestore.instance
                       .collection("bankAccounts")
+                      .orderBy("acctNumber")
                       .snapshots()
                   : FirebaseFirestore.instance
                       .collection("bankAccounts")
+                      .orderBy("acctNumber")
                       .where(
                         "searchIndex",
                         arrayContains: searchString,
@@ -64,42 +76,24 @@ class _HomeState extends State<Home> {
                   case ConnectionState.waiting:
                     return Center(child: CircularProgressIndicator());
                   default:
-                    return ListView(
-                      padding: EdgeInsets.all(10.0),
-                      shrinkWrap: true,
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          elevation: 25.0,
-                          shadowColor: Colors.greenAccent,
-                          child: ListTile(
-                            tileColor: Colors.white10,
-                            leading: Icon(
-                              Icons.person,
-                              color: Colors.teal[800],
-                            ),
-                            title: Text(document["acctName"]),
-                            subtitle: Text(
-                              document["acctNumber"].toString(),
-                              style: TextStyle(
-                                  color: Colors.brown[800],
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                            trailing: Text(
-                              document["acctDeposit"].toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 20.0,
-                                  color: (document["acctDeposit"] < 0
-                                      ? Colors.red
-                                      : Colors.green[800])),
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                    return InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => new AlertDialog(
+                                  title: new Text("Material Dialog"),
+                                  content: new Text(""),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Close me!'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                ));
+                      },
+                      child: buildListView(snapshot),
                     );
                 }
               },

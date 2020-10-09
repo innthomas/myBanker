@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class SearchPage extends StatefulWidget {
+class AddAccount extends StatefulWidget {
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _AddAccountState createState() => _AddAccountState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _AddAccountState extends State<AddAccount> {
   TextEditingController _addNameController = TextEditingController();
   TextEditingController _addAcctNumberController = TextEditingController();
   TextEditingController _addDepositController = TextEditingController();
@@ -23,7 +23,10 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add new account"),
+        title: Text(
+          "add new account",
+          style: TextStyle(fontFamily: "FugazOne"),
+        ),
       ),
       body: Column(
         children: <Widget>[
@@ -59,63 +62,6 @@ class _SearchPageState extends State<SearchPage> {
               )
             ],
           ),
-          Divider(),
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search",
-                      labelText: "Search Account Name",
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        searchString = value.toLowerCase();
-                      });
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: (searchString == null || searchString.trim() == "")
-                        ? FirebaseFirestore.instance
-                            .collection("bankAccounts")
-                            .snapshots()
-                        : FirebaseFirestore.instance
-                            .collection("bankAccounts")
-                            .where(
-                              "searchIndex",
-                              arrayContains: searchString,
-                            )
-                            .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError)
-                        return Text("Error:${snapshot.hasError}");
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        default:
-                          return ListView(
-                            children: snapshot.data.docs
-                                .map((DocumentSnapshot document) {
-                              return ListTile(
-                                title: Text(document["acctName"]),
-                                subtitle:
-                                    Text(document["acctNumber"].toString()),
-                                trailing:
-                                    Text(document["acctDeposit"].toString()),
-                              );
-                            }).toList(),
-                          );
-                      }
-                    },
-                  ),
-                )
-              ],
-            ),
-          )
         ],
       ),
     );
