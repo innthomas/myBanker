@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         title: Center(
             child: Text(
           "ThriftApp",
-          style: TextStyle(fontFamily: "Pacifico"),
+          style: TextStyle(fontFamily: "FugazOne"),
         )),
       ),
       body: Column(

@@ -74,6 +74,10 @@ flutter:
       fonts:
         - asset: fonts/Pacifico-Regular.ttf
           weight: 700
-  #
+    - family: FugazOne
+      fonts:
+        - asset: fonts/FugazOne-Regular.ttf
+          weight: 700
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
