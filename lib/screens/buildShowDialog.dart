@@ -27,6 +27,8 @@ Future buildShowDialog(BuildContext context) {
 }
 
 void _updateData() async {
-  await users.doc().update({"acctDeposit": 4000});
+  await users.doc().update({
+    "acctDeposit": _amtController.text,
+  });
   print(users.doc().snapshots());
 }

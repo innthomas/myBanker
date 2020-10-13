@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'buildShowDialog.dart';
-import 'build_listview.dart';
+import 'package:myBanker/screens/build_listview.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -14,25 +13,31 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 100.0,
-        title: buildTextField(),
-      ),
+      appBar: AppBar(title: Center(child: Text("Account Search"))),
       body: Column(
         children: <Widget>[
           Expanded(
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(hintText: "Search"),
+                    onChanged: (value) {
+                      setState(() {
+                        searchString = value.toLowerCase();
+                      });
+                    },
+                  ),
+                ),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     stream: (searchString == null || searchString.trim() == "")
                         ? FirebaseFirestore.instance
                             .collection("bankAccounts")
-                            .orderBy("acctNumber")
                             .snapshots()
                         : FirebaseFirestore.instance
                             .collection("bankAccounts")
-                            .orderBy("acctNumber")
                             .where(
                               "searchIndex",
                               arrayContains: searchString,
@@ -41,16 +46,12 @@ class _SearchPageState extends State<SearchPage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasError)
                         return Text("Error:${snapshot.hasError}");
+                      print(snapshot.error);
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                           return Center(child: CircularProgressIndicator());
                         default:
-                          return InkWell(
-                            onTap: () {
-                              buildShowDialog(context);
-                            },
-                            child: buildListView(snapshot),
-                          );
+                          return buildListView(snapshot);
                       }
                     },
                   ),
@@ -60,20 +61,6 @@ class _SearchPageState extends State<SearchPage> {
           )
         ],
       ),
-    );
-  }
-
-  TextField buildTextField() {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search",
-        labelText: "Search Account Name",
-      ),
-      onChanged: (value) {
-        setState(() {
-          searchString = value.toLowerCase();
-        });
-      },
     );
   }
 }

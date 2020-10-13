@@ -78,20 +78,9 @@ class _HomeState extends State<Home> {
                   default:
                     return InkWell(
                       onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) => new AlertDialog(
-                                  title: new Text("Material Dialog"),
-                                  content: new Text(""),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text('Close me!'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                ));
+                        setState(() {
+                          buildShowDialog(context);
+                        });
                       },
                       child: buildListView(snapshot),
                     );
