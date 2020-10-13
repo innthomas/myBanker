@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/account_model.dart';
-import '../services/firestore_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 CollectionReference users = firestore.collection("bankAccounts");
@@ -20,7 +18,7 @@ Future buildShowDialog(BuildContext context) {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('update me!'),
+                child: Text('deposit/withdraw !'),
                 onPressed: () {
                   _updateData();
                   Navigator.of(context).pop();

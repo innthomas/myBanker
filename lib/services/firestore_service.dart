@@ -17,6 +17,7 @@ class FirestoreService {
                     doc.data(),
                     acct.id,
                     acct.acctBalance,
+                    acct.acctName,
                     acct.date,
                     acct.acctName,
                   ))

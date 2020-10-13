@@ -5,11 +5,16 @@ class Account {
   final String id;
   final DateTime date;
 
-  Account(
-      {this.acctName, this.acctNumber, this.acctBalance, this.id, this.date});
+  Account({
+    this.acctName,
+    this.acctNumber,
+    this.acctBalance,
+    this.id,
+    this.date,
+  });
 
   Account.fromMap(Map<String, dynamic> data, String id, double acctBalance,
-      DateTime date, String acctName)
+      String uuid, DateTime date, String acctName)
       : acctName = data["acctName"],
         acctNumber = data['acctNumber'],
         acctBalance = data["acctBalance"],

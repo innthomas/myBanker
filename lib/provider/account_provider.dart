@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myBanker/models/account_model.dart';
 import 'package:myBanker/services/firestore_service.dart';
-//import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid.dart';
 
 class AccountProvider with ChangeNotifier {
   final firestoreService = FirestoreService();
@@ -9,7 +9,7 @@ class AccountProvider with ChangeNotifier {
   double _acctBalance;
   double _acctNumber;
   DateTime _date;
-  // var uuid = Uuid();
+  var uuid = Uuid();
 
   //Getters
   String get acctName => _acctName;
