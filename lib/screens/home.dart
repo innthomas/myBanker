@@ -6,6 +6,7 @@ import 'buildShowDialog.dart';
 import 'build_listview.dart';
 
 import '../screens/searcher.dart';
+import 'update_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -78,9 +79,10 @@ class _HomeState extends State<Home> {
                   default:
                     return InkWell(
                       onTap: () {
-                        setState(() {
-                          buildShowDialog(context);
-                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => UpdatePage()),
+                        );
                       },
                       child: buildListView(snapshot),
                     );

@@ -1,6 +1,6 @@
 class Account {
   final String acctName;
-  final String acctNumber;
+  num acctNumber;
   final double acctBalance;
   final String id;
   final DateTime date;
