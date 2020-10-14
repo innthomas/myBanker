@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:myBanker/models/account_model.dart';
+import 'package:myBanker/provider/account_provider.dart';
 import 'package:myBanker/screens/add_account.dart';
 import 'package:myBanker/screens/my_drawer.dart';
+import 'package:provider/provider.dart';
 import 'buildShowDialog.dart';
 import 'build_listview.dart';
 
@@ -17,6 +20,10 @@ class _HomeState extends State<Home> {
   String searchString = "";
   @override
   Widget build(BuildContext context) {
+    final accounts = Provider.of<List<Account>>(context);
+    final acctProvider = Provider.of<AccountProvider>(context, listen: true);
+    acctProvider.loadValues(Account());
+
     return Scaffold(
       drawer: MyDrawer(),
       backgroundColor: Colors.teal[100],
@@ -79,10 +86,15 @@ class _HomeState extends State<Home> {
                   default:
                     return InkWell(
                       onTap: () {
-                        Navigator.push(
+                        setState(() {
+                          print(acctProvider.acctName);
+                          buildShowDialog(context);
+                        });
+
+                        /*  Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => UpdatePage()),
-                        );
+                        );*/
                       },
                       child: buildListView(snapshot),
                     );

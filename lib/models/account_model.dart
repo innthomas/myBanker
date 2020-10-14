@@ -29,4 +29,10 @@ class Account {
       "date": date,
     };
   }
+
+  Account.fromFirestore(Map<String, dynamic> firestore, this.id)
+      : acctNumber = firestore['acctNumber'],
+        date = firestore["date"],
+        acctName = firestore['acctName'],
+        acctBalance = firestore['acctBalance'];
 }
