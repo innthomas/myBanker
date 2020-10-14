@@ -5,11 +5,10 @@ import 'package:myBanker/provider/account_provider.dart';
 import 'package:myBanker/screens/add_account.dart';
 import 'package:myBanker/screens/my_drawer.dart';
 import 'package:provider/provider.dart';
-import 'buildShowDialog.dart';
+
 import 'build_listview.dart';
 
 import '../screens/searcher.dart';
-import 'update_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -84,20 +83,7 @@ class _HomeState extends State<Home> {
                   case ConnectionState.waiting:
                     return Center(child: CircularProgressIndicator());
                   default:
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          print(acctProvider.acctName);
-                          buildShowDialog(context);
-                        });
-
-                        /*  Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => UpdatePage()),
-                        );*/
-                      },
-                      child: buildListView(snapshot),
-                    );
+                    return buildListView(snapshot, context);
                 }
               },
             ),

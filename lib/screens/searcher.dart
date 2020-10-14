@@ -51,7 +51,7 @@ class _SearchPageState extends State<SearchPage> {
                         case ConnectionState.waiting:
                           return Center(child: CircularProgressIndicator());
                         default:
-                          return buildListView(snapshot);
+                          return buildListView(snapshot, context);
                       }
                     },
                   ),
